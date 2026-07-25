@@ -7,6 +7,13 @@ function Input({
     required = false,
     error,
   }) {
+    const validationRules =
+      typeof required === "string"
+        ? { required }
+        : required
+        ? { required: `${label} is required` }
+        : {};
+  
     return (
       <div className="mb-5">
         <label className="block mb-2 font-medium text-gray-700">
@@ -16,7 +23,7 @@ function Input({
         <input
           type={type}
           placeholder={placeholder}
-          {...register(name, { required })}
+          {...register(name, validationRules)}
           className="w-full border rounded-xl p-3 focus:ring-2 focus:ring-indigo-500 outline-none"
         />
   
