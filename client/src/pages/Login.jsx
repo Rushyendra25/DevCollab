@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { login } from "../services/authService";
+import { toast } from "sonner";
 
 import Card from "../components/common/Card";
 import Input from "../components/common/Input";
@@ -16,8 +18,26 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await login(data);
+  
+      localStorage.setItem("token", response.token);
+  
+      localStorage.setItem(
+        "user",
+        JSON.stringify(response.user)
+      );
+  
+      toast.success(response.message);
+  
+      console.log(response);
+  
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Login failed"
+      );
+    }
   };
 
   return (

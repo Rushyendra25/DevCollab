@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
+import { register as registerUser } from "../services/authService";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 import Card from "../components/common/Card";
 import Input from "../components/common/Input";
 import Button from "../components/common/Button";
@@ -19,9 +21,19 @@ function Register() {
   } = useForm();
 
   const password = watch("password");
-
-  const onSubmit = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+  const onSubmit = async (data) => {
+    try {
+      await registerUser(data);
+  
+      toast.success("Registration successful");
+  
+      navigate("/login");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Registration failed"
+      );
+    }
   };
 
   return (
