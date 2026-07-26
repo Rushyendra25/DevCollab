@@ -24,6 +24,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            client/package-lock.json
+            server/package-lock.json
 
       #################################################
       # FRONTEND
@@ -31,7 +35,15 @@ jobs:
 
       - name: Install Frontend Dependencies
         working-directory: ./client
-        run: npm install
+        run: npm ci
+
+      - name: Audit Frontend Packages
+        working-directory: client
+        run: npm audit --audit-level=high || true
+
+      - name: Lint Frontend
+        working-directory: client
+        run: npm run lint
 
       - name: Build Frontend
         working-directory: ./client
@@ -43,4 +55,12 @@ jobs:
 
       - name: Install Backend Dependencies
         working-directory: ./server
-        run: npm install
+        run: npm ci
+
+      - name: Audit Backend Packages
+        working-directory: server
+        run: npm audit --audit-level=high || true
+
+      - name: Verify Backend Syntax
+        working-directory: server
+        run: node --check server.js
