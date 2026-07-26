@@ -8,6 +8,7 @@ import Projects from "../pages/Projects";
 import CreateProject from "../pages/CreateProject";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
+import ProtectedRoute from "./ProtectedRoute";
 
 function AppRouter() {
   return (
@@ -19,7 +20,13 @@ function AppRouter() {
 
         <Route path="/register" element={<Register />} />
 
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+            path="/dashboard"
+            element={
+                <ProtectedRoute>
+                <Dashboard />
+                </ProtectedRoute>
+                }/>
 
         <Route path="/projects" element={<Projects />} />
 

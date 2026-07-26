@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { login } from "../services/authService";
 import { toast } from "sonner";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../components/common/Card";
 import Input from "../components/common/Input";
@@ -11,27 +13,22 @@ import Button from "../components/common/Button";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const { login: loginUserContext } = useAuth();
   const onSubmit = async (data) => {
     try {
       const response = await login(data);
   
-      localStorage.setItem("token", response.token);
-  
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.user)
-      );
+      loginUserContext(response.user, response.token);
   
       toast.success(response.message);
   
-      console.log(response);
+      navigate("/dashboard");
   
     } catch (error) {
       toast.error(
