@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Navbar from "../components/layout/NavBar";
+import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { FaUsers, FaProjectDiagram, FaHandshake } from "react-icons/fa";
 
