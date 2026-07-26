@@ -1,10 +1,28 @@
 import Application from "../models/Application.js";
 import Project from "../models/Project.js";
+import User from "../models/User.js";
 
 export const applyToProject = async (req, res) => {
   try {
     const { projectId } = req.params;
     const userId = req.user.id;
+    const user = await User.findById(userId);
+
+    const profileComplete =
+        user.role &&
+        user.location &&
+        user.bio &&
+        user.experience &&
+        user.skills &&
+        user.skills.length >= 3 &&
+        (user.github || user.portfolio);
+
+    if (!profileComplete) {
+        return res.status(400).json({
+            success: false,
+            message: "Complete your profile before applying to projects.",
+        });
+    }
 
     // Check if project exists
     const project = await Project.findById(projectId);
@@ -67,7 +85,10 @@ export const getProjectApplications = async (req, res) => {
     const applications = await Application.find({
       project: projectId,
     })
-      .populate("applicant", "name email github")
+    .populate(
+        "applicant",
+        "name email role location experience github linkedin portfolio skills bio"
+    )
       .populate("project", "title");
 
     res.json({

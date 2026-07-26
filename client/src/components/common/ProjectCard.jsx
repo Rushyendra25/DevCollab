@@ -2,10 +2,11 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { applyToProject } from "../../services/projectService";
+import { useNavigate } from "react-router-dom";
 
 function ProjectCard({ project }) {
   const { user } = useAuth();
-
+  const navigate = useNavigate();
   const userId = user?._id || user?.id;
 
   const isOwner = project.owner?._id === userId;
@@ -21,9 +22,20 @@ function ProjectCard({ project }) {
       // Refresh to update applicant count and button state
       window.location.reload();
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Unable to apply"
-      );
+
+        const message =
+            error.response?.data?.message || "Unable to apply";
+    
+        toast.error(message);
+    
+        if (message.includes("Complete your profile")) {
+    
+            setTimeout(() => {
+                navigate("/profile");
+            }, 1500);
+    
+        }
+    
     }
   };
 
