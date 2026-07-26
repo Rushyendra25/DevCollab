@@ -13,6 +13,7 @@ import ProjectDetails from "../pages/ProjectDetails";
 import MyProjects from "../pages/MyProjects";
 import ManageApplications from "../pages/ManageApplications";
 
+
 function AppRouter() {
   return (
     <BrowserRouter>
@@ -43,6 +44,11 @@ function AppRouter() {
         <Route
         path="/projects/:id/applications"
         element={<ManageApplications />}
+        />
+
+        <Route
+        path="/profile"
+        element={<Profile />}
         />
 
         <Route path="/projects" element={<Projects />} />

@@ -52,6 +52,13 @@ function Navbar() {
             My Projects
             </Link>
             
+            <Link
+            to="/profile"
+            className="hover:text-indigo-600"
+            >
+            My Profile
+            </Link>
+            
             <button
               onClick={logout}
               className="bg-red-500 text-white px-4 py-2 rounded-lg"
