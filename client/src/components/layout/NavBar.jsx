@@ -45,6 +45,13 @@ function Navbar() {
               Dashboard
             </Link>
 
+            <Link
+            to="/my-projects"
+            className="hover:text-indigo-600"
+            >
+            My Projects
+            </Link>
+            
             <button
               onClick={logout}
               className="bg-red-500 text-white px-4 py-2 rounded-lg"

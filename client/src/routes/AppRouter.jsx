@@ -9,6 +9,9 @@ import CreateProject from "../pages/CreateProject";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import ProtectedRoute from "./ProtectedRoute";
+import ProjectDetails from "../pages/ProjectDetails";
+import MyProjects from "../pages/MyProjects";
+import ManageApplications from "../pages/ManageApplications";
 
 function AppRouter() {
   return (
@@ -27,6 +30,20 @@ function AppRouter() {
                 <Dashboard />
                 </ProtectedRoute>
                 }/>
+        <Route
+            path="/projects/:id"
+            element={<ProjectDetails />}
+            />
+
+            <Route
+            path="/my-projects"
+            element={<MyProjects />}
+            />
+
+        <Route
+        path="/projects/:id/applications"
+        element={<ManageApplications />}
+        />
 
         <Route path="/projects" element={<Projects />} />
 

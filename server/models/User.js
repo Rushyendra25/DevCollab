@@ -15,7 +15,44 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-
+    bio: {
+        type: String,
+        default: "",
+    },
+    
+    skills: [{
+        type: String,
+    }],
+    
+    experience: {
+        type: String,
+        default: "",
+    },
+    
+    github: {
+        type: String,
+        default: "",
+    },
+    
+    linkedin: {
+        type: String,
+        default: "",
+    },
+    
+    portfolio: {
+        type: String,
+        default: "",
+    },
+    
+    location: {
+        type: String,
+        default: "",
+    },
+    
+    role: {
+        type: String,
+        default: "Software Developer",
+    },
     password: {
       type: String,
       required: true,

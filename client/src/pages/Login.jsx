@@ -23,16 +23,13 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const response = await login(data);
-  
       loginUserContext(response.user, response.token);
-  
       toast.success(response.message);
-  
       navigate("/dashboard");
-  
     } catch (error) {
+      console.error("LOGIN ERROR:", error);
       toast.error(
-        error.response?.data?.message || "Login failed"
+        error.response?.data?.message || error.message
       );
     }
   };

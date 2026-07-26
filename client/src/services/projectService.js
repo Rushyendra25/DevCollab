@@ -13,10 +13,9 @@ export const getAllProjects = async () => {
 };
 
 export const getProjectById = async (id) => {
-  const response = await api.get(`/projects/${id}`);
-
-  return response.data;
-};
+    const response = await api.get(`/projects/${id}`);
+    return response.data;
+  };
 
 export const deleteProject = async (id) => {
   const response = await api.delete(`/projects/${id}`);
@@ -29,3 +28,35 @@ export const updateProject = async (id, projectData) => {
 
   return response.data;
 };
+
+export const applyToProject = async (projectId) => {
+    const response = await api.post(`/applications/${projectId}`);
+  
+    return response.data;
+  };
+
+  export const getMyProjects = async () => {
+    const response = await api.get("/projects/my/projects");
+  
+    return response.data;
+  };
+
+  export const getProjectApplications = async (projectId) => {
+    const response = await api.get(
+      `/applications/project/${projectId}`
+    );
+  
+    return response.data;
+  };
+  
+  export const updateApplicationStatus = async (
+    applicationId,
+    status
+  ) => {
+    const response = await api.put(
+      `/applications/${applicationId}`,
+      { status }
+    );
+  
+    return response.data;
+  };
