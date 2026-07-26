@@ -56,7 +56,7 @@ function MyProjects() {
 
         ) : (
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 hover:-translate-y-1 bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 p-6">
 
             {projects.map((project) => (
 
@@ -73,22 +73,45 @@ function MyProjects() {
                   {project.description}
                 </p>
 
-                <div className="mt-6 space-y-2">
+                <div className="grid grid-cols-2 gap-4 mt-5">
 
-                  <p>
-                    👥 Team Size:
-                    <strong> {project.teamSize}</strong>
-                  </p>
+                <div className="bg-gray-50 rounded-xl p-4 text-center">
 
-                  <p>
-                    📨 Applications:
-                    <strong> {project.applicantCount}</strong>
-                  </p>
+                    <p className="text-gray-500 text-sm">
+                        Team Size
+                    </p>
 
-                  <p>
-                    📌 Status:
-                    <strong> {project.status}</strong>
-                  </p>
+                    <p className="text-2xl font-bold">
+                        {project.teamSize}
+                    </p>
+
+                </div>
+
+                <div className="bg-gray-50 rounded-xl p-4 text-center">
+
+                    <p className="text-gray-500 text-sm">
+                        Applications
+                    </p>
+
+                    <p className="text-2xl font-bold">
+                        {project.applicantCount}
+                    </p>
+
+                </div>
+
+
+                <span
+                    className={`
+                    inline-flex px-4 py-1 rounded-full text-sm font-semibold
+
+                    ${project.status==="Open"
+                    ?"bg-green-100 text-green-700"
+                    :"bg-red-100 text-red-700"}
+
+                    `}
+                    >
+                    {project.status}
+                </span>
 
                 </div>
 

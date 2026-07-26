@@ -6,6 +6,9 @@ import {
   createProject,
   getAllProjects,
 } from "../controllers/projectController.js";
+import {
+    updateProject,deleteProject
+} from "../controllers/projectController.js";
 
 const router = express.Router();
 
@@ -15,5 +18,15 @@ router.get("/my/projects", authMiddleware, getMyProjects);
 router.get("/:id", getProjectById);
 // Protected route
 router.post("/", authMiddleware, createProject);
+router.put(
+    "/:id",
+    authMiddleware,
+    updateProject
+);
+router.delete(
+    "/:id",
+    authMiddleware,
+    deleteProject
+);
 
 export default router;
