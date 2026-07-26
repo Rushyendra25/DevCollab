@@ -12,7 +12,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import ProjectDetails from "../pages/ProjectDetails";
 import MyProjects from "../pages/MyProjects";
 import ManageApplications from "../pages/ManageApplications";
-
+import MyApplications from "../pages/MyApplications"
 
 function AppRouter() {
   return (
@@ -49,6 +49,11 @@ function AppRouter() {
         <Route
         path="/profile"
         element={<Profile />}
+        />
+
+        <Route
+        path="/my-applications"
+        element={<MyApplications />}
         />
 
         <Route path="/projects" element={<Projects />} />

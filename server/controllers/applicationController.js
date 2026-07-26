@@ -141,3 +141,93 @@ export const updateApplicationStatus = async (req, res) => {
       });
     }
   };
+
+
+  export const getMyApplications = async (req, res) => {
+    try {
+  
+      const applications = await Application.find({
+        applicant: req.user.id,
+      })
+        .populate({
+          path: "project",
+          populate: {
+            path: "owner",
+            select: "name",
+          },
+        })
+        .sort({ createdAt: -1 });
+  
+      res.json({
+        success: true,
+        applications,
+      });
+  
+    } catch (error) {
+      console.error(error);
+  
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+      });
+    }
+  };
+
+
+  export const withdrawApplication = async (req, res) => {
+
+    try {
+  
+      const application = await Application.findById(
+        req.params.applicationId
+      );
+  
+      if (!application) {
+  
+        return res.status(404).json({
+          success: false,
+          message: "Application not found",
+        });
+  
+      }
+  
+      if (
+        application.applicant.toString() !== req.user.id
+      ) {
+  
+        return res.status(403).json({
+          success: false,
+          message: "Not authorized",
+        });
+  
+      }
+  
+      if (application.status !== "Pending") {
+  
+        return res.status(400).json({
+          success: false,
+          message:
+            "Only pending applications can be withdrawn.",
+        });
+  
+      }
+  
+      await application.deleteOne();
+  
+      res.json({
+        success: true,
+        message: "Application withdrawn successfully",
+      });
+  
+    } catch (error) {
+  
+      console.error(error);
+  
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+      });
+  
+    }
+  
+  };

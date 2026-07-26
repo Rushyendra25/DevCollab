@@ -51,7 +51,16 @@ function Navbar() {
             >
             My Projects
             </Link>
-            
+
+
+            <Link
+            to="/my-applications"
+            className="hover:text-indigo-600"
+            >
+            My Applications
+            </Link>
+
+
             <Link
             to="/profile"
             className="hover:text-indigo-600"
