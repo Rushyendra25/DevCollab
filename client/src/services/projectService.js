@@ -6,11 +6,27 @@ export const createProject = async (projectData) => {
   return response.data;
 };
 
-export const getAllProjects = async () => {
-  const response = await api.get("/projects");
-
-  return response.data;
-};
+export const getAllProjects = async (filters = {}) => {
+    const params = new URLSearchParams();
+  
+    if (filters.search) {
+      params.append("search", filters.search);
+    }
+  
+    if (filters.status && filters.status !== "All") {
+      params.append("status", filters.status);
+    }
+  
+    if (filters.skill && filters.skill !== "All") {
+      params.append("skill", filters.skill);
+    }
+  
+    const response = await api.get(
+      `/projects?${params.toString()}`
+    );
+  
+    return response.data;
+  };
 
 export const getProjectById = async (id) => {
     const response = await api.get(`/projects/${id}`);

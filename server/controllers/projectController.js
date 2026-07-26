@@ -48,41 +48,66 @@ export const createProject = async (req, res) => {
 
 
 export const getAllProjects = async (req, res) => {
-  try {
-    const projects = await Project.find()
-      .populate("owner", "name email github")
-      .sort({ createdAt: -1 });
-
-    const projectsWithApplications = await Promise.all(
-      projects.map(async (project) => {
-        const applications = await Application.find({
-          project: project._id,
-        });
-
-        return {
-          ...project.toObject(),
-          applicantCount: applications.length,
-          applicants: applications.map((app) =>
-            app.applicant.toString()
-          ),
+    try {
+      const { search, status, skill } = req.query;
+  
+      const filter = {};
+  
+      // Search by title
+      if (search) {
+        filter.title = {
+          $regex: search,
+          $options: "i",
         };
-      })
-    );
-
-    res.json({
-      success: true,
-      projects: projectsWithApplications,
-    });
-
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Server Error",
-    });
-  }
-};
+      }
+  
+      // Filter by status
+      if (status && status !== "All") {
+        filter.status = status;
+      }
+  
+      // Filter by required skill
+      if (skill && skill !== "All") {
+        filter.requiredSkills = {
+          $in: [skill],
+        };
+      }
+  
+      const projects = await Project.find(filter)
+        .populate("owner", "name email github")
+        .sort({ createdAt: -1 });
+  
+      const projectsWithApplications = await Promise.all(
+        projects.map(async (project) => {
+          const applications = await Application.find({
+            project: project._id,
+          });
+  
+          return {
+            ...project.toObject(),
+            applicantCount: applications.length,
+            applicants: applications.map((app) =>
+              app.applicant.toString()
+            ),
+          };
+        })
+      );
+  
+      res.json({
+        success: true,
+        count: projectsWithApplications.length,
+        projects: projectsWithApplications,
+      });
+  
+    } catch (error) {
+      console.error(error);
+  
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+      });
+    }
+  };
 
 export const getProjectById = async (req, res) => {
     try {
