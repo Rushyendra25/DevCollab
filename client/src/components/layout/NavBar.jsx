@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link ,NavLink} from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 function Navbar() {
@@ -38,35 +38,62 @@ function Navbar() {
               {user.name}
             </span>
 
-            <Link
-              to="/dashboard"
-              className="text-indigo-600"
+            <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+                isActive
+                    ? "text-indigo-600 font-semibold"
+                    : "text-gray-700 hover:text-indigo-600 transition"
+            }
             >
-              Dashboard
-            </Link>
+                Dashboard
+            </NavLink>
 
-            <Link
-            to="/my-projects"
-            className="hover:text-indigo-600"
+            <NavLink
+                to="/my-projects"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-indigo-600 font-semibold"
+                        : "text-gray-700 hover:text-indigo-600 transition"
+                }
             >
-            My Projects
-            </Link>
+                My Projects
+            </NavLink>
 
 
-            <Link
-            to="/my-applications"
-            className="hover:text-indigo-600"
+            <NavLink
+                to="/my-applications"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-indigo-600 font-semibold"
+                        : "text-gray-700 hover:text-indigo-600 transition"
+                }
             >
-            My Applications
-            </Link>
+                My Applications
+            </NavLink>
 
-
-            <Link
-            to="/profile"
-            className="hover:text-indigo-600"
+            <NavLink
+                to="/projects"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-indigo-600 font-semibold"
+                        : "text-gray-700 hover:text-indigo-600 transition"
+                }
             >
-            My Profile
-            </Link>
+                Explore Projects
+            </NavLink>
+
+
+            <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-indigo-600 font-semibold"
+                        : "text-gray-700 hover:text-indigo-600 transition"
+                }
+            >
+                My Profile
+            </NavLink>
             
             <button
               onClick={logout}

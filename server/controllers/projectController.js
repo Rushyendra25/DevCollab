@@ -225,61 +225,57 @@ export const getProjectById = async (req, res) => {
   };
 
 
-  export const deleteProject = async (req, res) => {
-    try {
-  
-      const project = await Project.findById(req.params.id);
-  
-      if (!project) {
-        return res.status(404).json({
-          success: false,
-          message: "Project not found",
-        });
-      }
-  
-      if (project.owner.toString() !== req.user.id) {
-        return res.status(403).json({
-          success: false,
-          message: "Unauthorized",
-        });
-      }
-  
-      // Check for active applications
-      const activeApplications = await Application.countDocuments({
-        project: project._id,
-        status: {
-          $in: ["Pending", "Accepted"],
-        },
-      });
-  
-      if (activeApplications > 0) {
-        return res.status(400).json({
-          success: false,
-          message:
-            "Cannot delete a project with pending or accepted applications.",
-        });
-      }
-  
-      // Delete old rejected/withdrawn applications
-      await Application.deleteMany({
-        project: project._id,
-      });
-  
-      await project.deleteOne();
-  
-      res.json({
-        success: true,
-        message: "Project deleted successfully",
-      });
-  
-    } catch (error) {
-  
-      console.error(error);
-  
-      res.status(500).json({
+
+export const deleteProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const project = await Project.findById(id);
+
+    if (!project) {
+      return res.status(404).json({
         success: false,
-        message: "Server Error",
+        message: "Project not found",
       });
-  
     }
-  };
+
+    if (project.owner.toString() !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    const acceptedApplication = await Application.findOne({
+      project: id,
+      status: "Accepted",
+    });
+
+    if (acceptedApplication) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Cannot delete project with accepted team members.",
+      });
+    }
+
+    await Application.deleteMany({
+      project: id,
+    });
+
+    await Project.findByIdAndDelete(id);
+
+    res.json({
+      success: true,
+      message: "Project deleted successfully",
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};

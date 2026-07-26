@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import EditProjectModal from "../components/project/EditProjectModal";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-
+import DeleteProjectModal from "../components/project/DeleteProjectModal";
+import { deleteProject } from "../services/projectService";
+import { toast } from "sonner";
 import { getMyProjects } from "../services/projectService";
 
 function MyProjects() {
 
   const [projects, setProjects] = useState([]);
-
+  const [editingProject, setEditingProject] =useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [showEditModal, setShowEditModal]=useState(false);
   useEffect(() => {
     loadProjects();
   }, []);
@@ -20,6 +25,30 @@ function MyProjects() {
       setProjects(response.projects);
     } catch (error) {
       console.error(error);
+    }
+  };
+  const handleDelete = async () => {
+    try {
+  
+      const response = await deleteProject(selectedProject._id);
+  
+      toast.success(response.message);
+  
+      // Remove project from UI immediately
+      setProjects((prev) =>
+        prev.filter((p) => p._id !== selectedProject._id)
+      );
+  
+      setDeleteModal(false);
+      setSelectedProject(null);
+  
+    } catch (error) {
+  
+      toast.error(
+        error.response?.data?.message ||
+        "Unable to delete project"
+      );
+  
     }
   };
 
@@ -56,13 +85,13 @@ function MyProjects() {
 
         ) : (
 
-          <div className="grid md:grid-cols-2 gap-8 hover:-translate-y-1 bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-300 p-6">
+          <div className="grid md:grid-cols-2 gap-8">
 
             {projects.map((project) => (
 
               <div
                 key={project._id}
-                className="bg-white rounded-2xl shadow p-6"
+                className="bg-white rounded-2xl shadow p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
 
                 <h2 className="text-2xl font-bold">
@@ -115,21 +144,41 @@ function MyProjects() {
 
                 </div>
 
-                <div className="flex gap-3 mt-8">
+                <div className="grid grid-cols-4 gap-3 mt-8">
 
-                  <Link
-                    to={`/projects/${project._id}`}
-                    className="flex-1 border text-center py-2 rounded-xl"
-                  >
-                    View
-                  </Link>
+                    <Link
+                        to={`/projects/${project._id}`}
+                        className="border rounded-xl py-2 text-center hover:bg-gray-100 transition"
+                    >
+                        👁 View
+                    </Link>
 
-                  <Link
-                    to={`/projects/${project._id}/applications`}
-                    className="flex-1 bg-indigo-600 text-white text-center py-2 rounded-xl"
-                  >
-                    Manage
-                  </Link>
+                    <Link
+                        to={`/projects/${project._id}/applications`}
+                        className="bg-indigo-600 text-white rounded-xl py-2 text-center hover:bg-indigo-700 transition"
+                    >
+                        👥 Manage
+                    </Link>
+
+                    <button
+                        onClick={() => {
+                        setEditingProject(project);
+                        setShowEditModal(true);
+                        }}
+                        className="border rounded-xl py-2 hover:bg-yellow-50 transition"
+                    >
+                        ✏ Edit
+                    </button>
+
+                    <button
+                        onClick={() => {
+                            setSelectedProject(project);
+                            setDeleteModal(true);
+                          }}
+                        className="border border-red-500 text-red-600 rounded-xl py-2 hover:bg-red-50 transition"
+                    >
+                        🗑 Delete
+                    </button>
 
                 </div>
 
@@ -142,7 +191,18 @@ function MyProjects() {
         )}
 
       </div>
-
+      <EditProjectModal
+    open={showEditModal}
+    project={editingProject}
+    onClose={() => setShowEditModal(false)}
+    onUpdated={loadProjects}
+    />
+    <DeleteProjectModal
+    open={deleteModal}
+    projectTitle={selectedProject?.title}
+    onCancel={() => setDeleteModal(false)}
+    onDelete={handleDelete}
+    />
       <Footer />
 
     </>

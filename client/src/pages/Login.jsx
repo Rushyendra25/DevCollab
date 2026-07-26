@@ -25,6 +25,7 @@ function Login() {
       const response = await login(data);
       loginUserContext(response.user, response.token);
       toast.success(response.message);
+      
       navigate("/dashboard");
     } catch (error) {
       console.error("LOGIN ERROR:", error);

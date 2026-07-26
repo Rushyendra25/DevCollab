@@ -13,10 +13,12 @@ import ProjectDetails from "../pages/ProjectDetails";
 import MyProjects from "../pages/MyProjects";
 import ManageApplications from "../pages/ManageApplications";
 import MyApplications from "../pages/MyApplications"
+import { AuthProvider } from "../context/AuthContext";
 
 function AppRouter() {
   return (
     <BrowserRouter>
+
       <Routes>
         <Route path="/" element={<Home />} />
 
@@ -33,37 +35,46 @@ function AppRouter() {
                 }/>
         <Route
             path="/projects/:id"
-            element={<ProjectDetails />}
+            element={
+            <ProtectedRoute>
+            <ProjectDetails />
+            </ProtectedRoute>
+            }
             />
 
             <Route
             path="/my-projects"
-            element={<MyProjects />}
+            element={
+            <ProtectedRoute>
+            <MyProjects />
+            </ProtectedRoute>
+            }
             />
 
         <Route
         path="/projects/:id/applications"
-        element={<ManageApplications />}
+        element={ <ProtectedRoute><ManageApplications /></ProtectedRoute>}
         />
 
         <Route
         path="/profile"
-        element={<Profile />}
+        element={<ProtectedRoute><Profile /></ProtectedRoute>}
         />
 
         <Route
         path="/my-applications"
-        element={<MyApplications />}
+        element={<ProtectedRoute><MyApplications /></ProtectedRoute>}
         />
 
-        <Route path="/projects" element={<Projects />} />
+        <Route path="/projects" element={<ProtectedRoute><Projects /></ProtectedRoute>} />
 
-        <Route path="/projects/create" element={<CreateProject />} />
+        <Route path="/projects/create" element={<ProtectedRoute><CreateProject /></ProtectedRoute>} />
 
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
+    
     </BrowserRouter>
   );
 }

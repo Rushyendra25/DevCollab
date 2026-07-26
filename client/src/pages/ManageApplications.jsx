@@ -55,8 +55,28 @@ function ManageApplications() {
 
         <h1 className="text-4xl font-bold mb-10">
           Applications
+
         </h1>
 
+
+        {applications.length === 0 ? (
+
+        <div className="bg-white rounded-2xl shadow p-12 text-center">
+
+        <div className="text-6xl mb-4">📭</div>
+
+        <h2 className="text-2xl font-bold">
+            No Applications Yet
+        </h2>
+
+        <p className="text-gray-500 mt-3">
+            This project hasn't received any applications yet.
+        </p>
+
+        </div>
+
+        ) : (
+        <div className="space-y-6">
         {applications.map((application) => (
 
           <div
@@ -200,9 +220,10 @@ function ManageApplications() {
             )}
 
           </div>
-
+        
         ))}
-
+     </div>
+        )}
       </div>
 
       <Footer />

@@ -76,3 +76,4 @@ export const applyToProject = async (projectId) => {
   
     return response.data;
   };
+  
