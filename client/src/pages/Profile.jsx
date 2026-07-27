@@ -12,7 +12,6 @@ import {
 
 
 const calculateCompletion = (profile) => {
-
     let completed = 0;
 
     const fields = [
@@ -30,11 +29,12 @@ const calculateCompletion = (profile) => {
         if (profile[field]) completed++;
     });
 
-    if (profile.skills?.length >= 3)
+    // Skills count as one completed section
+    if (profile.skills?.length > 0) {
         completed++;
+    }
 
     return Math.round((completed / 9) * 100);
-
 };
 function Profile() {
   const {
