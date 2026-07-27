@@ -15,29 +15,6 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-    bio: {
-        type: String,
-        default: "",
-    },
-    
-    skills: [{
-        type: String,
-    }],
-    
-    experience: {
-        type: String,
-        default: "",
-    },
-    
-    github: {
-        type: String,
-        default: "",
-    },
-    
-    linkedin: {
-        type: String,
-        default: "",
-    },
     
     portfolio: {
         type: String,
@@ -59,9 +36,9 @@ const userSchema = new mongoose.Schema(
     },
 
     experience: {
-      type: String,
-      enum: ["Beginner", "Intermediate", "Advanced"],
-      required: true,
+        type: String,
+        enum: ["", "Beginner", "Intermediate", "Advanced"],
+        default: "",
     },
 
     github: {

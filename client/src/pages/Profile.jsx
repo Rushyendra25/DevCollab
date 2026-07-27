@@ -47,7 +47,20 @@ function Profile() {
   useEffect(() => {
     loadProfile();
   }, []);
-
+  const watchedProfile = watch();
+  useEffect(() => {
+    setCompletion(
+      calculateCompletion({
+        ...watchedProfile,
+        skills: watchedProfile.skills
+          ? watchedProfile.skills
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean)
+          : [],
+      })
+    );
+  }, [watchedProfile]);
   const loadProfile = async () => {
     try {
       const response = await getProfile();
@@ -56,7 +69,7 @@ function Profile() {
         ...response.user,
         skills: response.user.skills?.join(", "),
       });
-      setCompletion(calculateCompletion(response.user));
+      
 
     } catch (error) {
       console.error(error);
@@ -72,7 +85,7 @@ function Profile() {
       const response = await updateProfile(data);
 
       toast.success(response.message);
-      setCompletion(calculateCompletion(response.user));
+      
 
     } catch (error) {
       toast.error(
@@ -204,11 +217,15 @@ function Profile() {
             className="w-full border rounded-lg p-3"
           />
 
-          <input
+        <select
             {...register("experience")}
-            placeholder="Experience"
             className="w-full border rounded-lg p-3"
-          />
+        >
+            <option value="">Select Experience</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+        </select>
 
           <input
             {...register("github")}
