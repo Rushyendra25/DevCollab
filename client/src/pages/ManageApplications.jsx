@@ -16,9 +16,7 @@ function ManageApplications() {
 
   const [applications, setApplications] = useState([]);
 
-  useEffect(() => {
-    loadApplications();
-  }, []);
+  
 
   const loadApplications = async () => {
     try {
@@ -30,6 +28,9 @@ function ManageApplications() {
       console.error(error);
     }
   };
+  useEffect(() => {
+    loadApplications();
+  }, []);
 
   const updateStatus = async (applicationId, status) => {
     try {
@@ -42,7 +43,7 @@ function ManageApplications() {
 
       loadApplications();
 
-    } catch (error) {
+    } catch{
       toast.error("Unable to update");
     }
   };

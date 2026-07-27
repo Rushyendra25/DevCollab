@@ -16,9 +16,7 @@ function Projects() {
     skill: "All",
   });
 
-  useEffect(() => {
-    loadProjects();
-  }, [filters]);
+  
 
   const loadProjects = async () => {
     try {
@@ -33,6 +31,9 @@ function Projects() {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    loadProjects();
+  }, [filters]);
 
   const availableSkills = useMemo(() => {
     return [

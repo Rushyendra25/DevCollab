@@ -14,9 +14,7 @@ function MyApplications() {
   const [applications, setApplications] = useState([]);
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    loadApplications();
-  }, []);
+ 
 
   const loadApplications = async () => {
     try {
@@ -26,6 +24,9 @@ function MyApplications() {
       console.error(error);
     }
   };
+  useEffect(() => {
+    loadApplications();
+  }, []);
 
   const handleWithdraw = async (id) => {
     if (!window.confirm("Withdraw this application?")) return;

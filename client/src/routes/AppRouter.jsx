@@ -12,8 +12,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import ProjectDetails from "../pages/ProjectDetails";
 import MyProjects from "../pages/MyProjects";
 import ManageApplications from "../pages/ManageApplications";
-import MyApplications from "../pages/MyApplications"
-import { AuthProvider } from "../context/AuthContext";
+import MyApplications from "../pages/MyApplications";
 
 function AppRouter() {
   return (

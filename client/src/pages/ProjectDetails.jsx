@@ -11,9 +11,7 @@ function ProjectDetails() {
 
   const [project, setProject] = useState(null);
 
-  useEffect(() => {
-    fetchProject();
-  }, []);
+  
 
   const fetchProject = async () => {
     try {
@@ -25,6 +23,9 @@ function ProjectDetails() {
       console.error(error);
     }
   };
+  useEffect(() => {
+    fetchProject();
+  }, []);
 
   if (!project) {
     return (

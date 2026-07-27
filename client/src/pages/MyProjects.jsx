@@ -15,9 +15,7 @@ function MyProjects() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [showEditModal, setShowEditModal]=useState(false);
-  useEffect(() => {
-    loadProjects();
-  }, []);
+  
 
   const loadProjects = async () => {
     try {
@@ -27,6 +25,9 @@ function MyProjects() {
       console.error(error);
     }
   };
+  useEffect(() => {
+    loadProjects();
+  }, []);
   const handleDelete = async () => {
     try {
   

@@ -10,9 +10,7 @@ function Dashboard() {
 
     const [data, setData] = useState(null);
 
-    useEffect(() => {
-        loadDashboard();
-    }, []);
+    
 
     const loadDashboard = async () => {
         try {
@@ -28,6 +26,9 @@ function Dashboard() {
 
         }
     };
+    useEffect(() => {
+        loadDashboard();
+    }, []);
 
     if (!data) {
 
